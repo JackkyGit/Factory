@@ -10,6 +10,7 @@ public class BarGraph : MonoBehaviour
     public Transform signParent;
     public float animDuration;
     public int signCount;
+    public bool useXSet;
 
     public List<BarBase> bars = new List<BarBase>();
     public List<Sign> signs = new List<Sign>();
@@ -112,7 +113,8 @@ public class BarGraph : MonoBehaviour
             {
                 vs.Add(values[i] / m);
             }
-            SetXAxis(m);
+            if (useXSet)
+                SetAxis(m);
 
             if (values.Count > 0 && values.Count != bars.Count)
             {
@@ -139,7 +141,7 @@ public class BarGraph : MonoBehaviour
         SetBarEvent();
     }
 
-    public void SetXAxis(float max = 0)
+    public void SetAxis(float max = 0)
     {
         if (signCount > 1 && signCount != signs.Count)
         {
@@ -154,5 +156,16 @@ public class BarGraph : MonoBehaviour
         {
             signs[i].signText.text = (g * i).ToString();
         }
+    }
+
+    public Dictionary<BarBase, T> SetDic<T>(List<T> Ts)
+    {
+        Dictionary<BarBase, T> dic = new Dictionary<BarBase, T>();
+        for (int i = 0; i < bars.Count; i++)
+        {
+            dic.Add(bars[i], Ts[i]);
+        }
+
+        return dic;
     }
 }

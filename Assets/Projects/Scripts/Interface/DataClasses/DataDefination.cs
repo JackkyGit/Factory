@@ -94,3 +94,18 @@ public struct ProductPassRate
         return this;
     }
 }
+
+public struct ProductCost
+{
+    public int ID;                 //成本ID
+    public string ProjectName;            //费用项目名称
+    public float cost;                  //费用信息
+
+    public ProductCost SetData(int id, string name, float cost)
+    {
+        this.ID = id;
+        this.ProjectName = name;
+        this.cost = cost;
+        return this;
+    }
+}

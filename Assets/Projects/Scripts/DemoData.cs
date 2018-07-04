@@ -25,6 +25,16 @@ public class DemoData : IDataIO
         return p;
     }
 
+    public List<ProductCost> GetData_ProductCost(int timeType)
+    {
+        TimeType type = (TimeType)timeType;
+        List<ProductCost> list = new List<ProductCost>();
+
+
+
+        return list;
+    }
+
     public List<ProductCostTotal> GetData_ProductCostTotal(int id)
     {
         List<ProductCostTotal> list = new List<ProductCostTotal>();
@@ -83,7 +93,50 @@ public class DemoData : IDataIO
 
     public List<ProductPassRate> GetData_ProductPassRateList(int timeType)
     {
+        TimeType type = (TimeType)timeType;
         List<ProductPassRate> list = new List<ProductPassRate>();
+
+        switch (type)
+        {
+            case TimeType.Day:
+                for (int i = 0; i < 9; i++)
+                {
+                    int num = i + 65;
+                    byte[] bt = new byte[] { (byte)num };
+                    ASCIIEncoding aSCIIEncoding = new ASCIIEncoding();
+                    string str = aSCIIEncoding.GetString(bt);
+                    ProductPassRate p = new ProductPassRate();
+                    p.SetData(i, "产品" + str, Random.Range(70,100));
+                    list.Add(p);
+                }
+                break;
+            case TimeType.Month:
+                for (int i = 0; i < 8; i++)
+                {
+                    int num = i + 65;
+                    byte[] bt = new byte[] { (byte)num };
+                    ASCIIEncoding aSCIIEncoding = new ASCIIEncoding();
+                    string str = aSCIIEncoding.GetString(bt);
+                    ProductPassRate p = new ProductPassRate();
+                    p.SetData(i, "产品" + str, Random.Range(40, 70));
+                    list.Add(p);
+                }
+                break;
+            case TimeType.Year:
+                for (int i = 0; i < 15; i++)
+                {
+                    int num = i + 65;
+                    byte[] bt = new byte[] { (byte)num };
+                    ASCIIEncoding aSCIIEncoding = new ASCIIEncoding();
+                    string str = aSCIIEncoding.GetString(bt);
+                    ProductPassRate p = new ProductPassRate();
+                    p.SetData(i, "产品" + str, Random.Range(10, 50));
+                    list.Add(p);
+                }
+                break;
+            default:
+                break;
+        }
 
         return list;
     }

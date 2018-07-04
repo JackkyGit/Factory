@@ -15,6 +15,7 @@ public class ProductOutputPanel : FirstLevelPanel
     private List<float> dataQuality = new List<float>();
     private List<string> dataName = new List<string>();
     private TimeType timeType;
+    private Dictionary<BarBase, ProductOutput> dataDic = new Dictionary<BarBase, ProductOutput>();
 
     public override void Init(ManagerBase manager)
     {
@@ -23,7 +24,6 @@ public class ProductOutputPanel : FirstLevelPanel
         timeType = TimeType.Month;
         toggleGroup.GetComponentsInChildren<Toggle>()[(int)timeType].isOn = true;
         graph.animDuration = animDuration;
-        graph.SetXAxis();
         graph.OnBarEnter += Graph_OnBarEnter;
         graph.OnBarExit += Graph_OnBarExit;
         graph.OnBarClick += Graph_OnBarClick;
@@ -31,7 +31,7 @@ public class ProductOutputPanel : FirstLevelPanel
 
     private void Graph_OnBarClick(BarBase arg0)
     {
-        Debug.Log(arg0.titleText.text);
+        Debug.Log(dataDic[arg0].productName + " : " + dataDic[arg0].quality);
     }
 
     private void Graph_OnBarExit(BarBase arg0)
@@ -81,6 +81,7 @@ public class ProductOutputPanel : FirstLevelPanel
     public override void SetData()
     {
         graph.SetBars(dataQuality, dataName);
+        dataDic = graph.SetDic<ProductOutput>(data);
     }
 
     /// <summary>

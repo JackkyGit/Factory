@@ -9,4 +9,5 @@ public interface IDataIO
     ProductTotal GetData_ProductTotal(int id);
     List<ProductCostTotal> GetData_ProductCostTotal(int id);
     List<ProductPassRate> GetData_ProductPassRateList(int timeType);
+    List<ProductCost> GetData_ProductCost(int timeType);
 }
