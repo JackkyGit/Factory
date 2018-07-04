@@ -26,4 +26,19 @@ public class FirstLevelPanelManager : ManagerBase
             Panels[i].SetCustomData();
         }
     }
+
+    //private void Update()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        for (int i = 0; i < Panels.Count; i++)
+    //        {
+    //            Panels[i].GetDataFromGetter(Getter.dataIO);
+
+    //            Panels[i].SetData();
+
+    //            Panels[i].SetCustomData();
+    //        }
+    //    }
+    //}
 }

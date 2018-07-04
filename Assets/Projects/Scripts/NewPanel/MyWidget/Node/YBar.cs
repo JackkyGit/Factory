@@ -8,8 +8,5 @@ using UnityEngine.UI;
 
 public class YBar : BarBase
 {
-    private void Start()
-    {
-        SetTriggers();
-    }
+
 }

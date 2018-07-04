@@ -10,10 +10,11 @@ public class BarBase : MonoBehaviour
 {
     public float BarValue { get { return barSlider.value; } set { barSlider.value = value; } }
     public EventTrigger GetEventTrigger { get { return barFill.GetComponent<EventTrigger>(); } }
+    public int TriggerCount { get { return GetEventTrigger.triggers.Count; } }
 
-    public event UnityAction OnClickBar;
-    public event UnityAction OnPointerEnter;
-    public event UnityAction OnPointerExit;
+    public event UnityAction<BarBase> OnClickBar;
+    public event UnityAction<BarBase> OnPointerEnter;
+    public event UnityAction<BarBase> OnPointerExit;
 
     public Image barBg;
     public Image barFill;
@@ -42,11 +43,16 @@ public class BarBase : MonoBehaviour
         GetEventTrigger.triggers.Add(myexit);
     }
 
+    public void DelateAllTrigger()
+    {
+        GetEventTrigger.triggers.Clear();
+    }
+
     private void MyExit(BaseEventData data)
     {
         if (OnPointerExit != null)
         {
-            OnPointerExit();
+            OnPointerExit(this);
         }
     }
 
@@ -54,7 +60,7 @@ public class BarBase : MonoBehaviour
     {
         if (OnPointerEnter != null)
         {
-            OnPointerEnter();
+            OnPointerEnter(this);
         }
     }
 
@@ -62,12 +68,22 @@ public class BarBase : MonoBehaviour
     {
         if (OnClickBar != null)
         {
-            OnClickBar();
+            OnClickBar(this);
         }
     }
 
     public void ToValue(float endvalue, float duration)
     {
         DOTween.To(() => BarValue, x => BarValue = x, endvalue, duration);
+    }
+
+    public void EnterAnim(float duration)
+    {
+        barFill.transform.DOScale(1.2f, duration).SetEase(Ease.OutElastic);
+    }
+
+    public void ExitAnim(float duration)
+    {
+        barFill.transform.DOScale(1, duration).SetEase(Ease.OutElastic);
     }
 }

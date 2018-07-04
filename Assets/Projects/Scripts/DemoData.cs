@@ -40,7 +40,7 @@ public class DemoData : IDataIO
         switch (type)
         {
             case TimeType.Day:
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 9; i++)
                 {
                     int num = i + 65;
                     byte[] bt = new byte[] { (byte)num };
@@ -64,7 +64,7 @@ public class DemoData : IDataIO
                 }
                 break;
             case TimeType.Year:
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     int num = i + 65;
                     byte[] bt = new byte[] { (byte)num };

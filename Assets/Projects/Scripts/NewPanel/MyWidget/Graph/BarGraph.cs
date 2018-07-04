@@ -8,6 +8,7 @@ public class BarGraph : MonoBehaviour
 {
     public Transform barParent;
     public Transform signParent;
+    public float animDuration;
     public int signCount;
 
     public List<BarBase> bars = new List<BarBase>();
@@ -16,17 +17,33 @@ public class BarGraph : MonoBehaviour
     public BarBase barPrefab;
     public Sign signPrefab;
 
-    public event UnityAction OnBarClick;
-    public event UnityAction OnBarEnter;
-    public event UnityAction OnBarExit;
+    public event UnityAction<BarBase> OnBarClick;
+    public event UnityAction<BarBase> OnBarEnter;
+    public event UnityAction<BarBase> OnBarExit;
 
     private void SetBarEvent()
     {
+        DelateAllEvent();
         for (int i = 0; i < bars.Count; i++)
         {
+            bars[i].SetTriggers();
             bars[i].OnClickBar += OnBarClick;
             bars[i].OnPointerEnter += OnBarEnter;
             bars[i].OnPointerExit += OnBarExit;
+        }
+    }
+
+    public void DelateAllEvent()
+    {
+        for (int i = 0; i < bars.Count; i++)
+        {
+            if (bars[i].TriggerCount > 0)
+            {
+                bars[i].DelateAllTrigger();
+                bars[i].OnClickBar -= OnBarClick;
+                bars[i].OnPointerEnter -= OnBarEnter;
+                bars[i].OnPointerExit -= OnBarExit;
+            }
         }
     }
 
@@ -53,14 +70,14 @@ public class BarGraph : MonoBehaviour
         {
             for (int i = 0; i < bars.Count; i++)
             {
-                bars[i].ToValue(0, 0.1f);
+                bars[i].ToValue(0, animDuration);
             }
             return;
         }
 
         for (int i = 0; i < bars.Count; i++)
         {
-            bars[i].ToValue(values[i], 0.1f);
+            bars[i].ToValue(values[i], animDuration);
         }
     }
 
@@ -71,14 +88,15 @@ public class BarGraph : MonoBehaviour
 
         for (int i = 0; i < list.Count; i++)
         {
-            Destroy(list[i].gameObject);
+            DestroyImmediate(list[i].gameObject);
         }
         list.Clear();
     }
 
     public void SetBars(List<float> values = null, List<string> titlelist = null)
     {
-        if (values != null && values.Count > 0 && values.Count != bars.Count)
+        List<float> vs = null;
+        if (values != null)
         {
             float max = Mathf.Max(values.ToArray());
             int p = 0;
@@ -86,20 +104,27 @@ public class BarGraph : MonoBehaviour
             {
                 p++;
                 max = max / 10;
-                Debug.Log(max);
             }
             int f = (int)max + 1;
             float m = f * Mathf.Pow(10, p);
-            SetXAxis(m);
-
-            DeleteList(bars);
+            vs = new List<float>();
             for (int i = 0; i < values.Count; i++)
             {
-                Instantiate(barPrefab, barParent);
+                vs.Add(values[i] / m);
             }
-            GetBars();
+            SetXAxis(m);
+
+            if (values.Count > 0 && values.Count != bars.Count)
+            {
+                DeleteList(bars);
+                for (int i = 0; i < values.Count; i++)
+                {
+                    Instantiate(barPrefab, barParent);
+                }
+                GetBars();
+            }
         }
-        if ((titlelist != null && titlelist.Count > 0 && titlelist.Count != bars.Count))
+        else if ((titlelist != null && titlelist.Count > 0 && titlelist.Count != bars.Count))
         {
             DeleteList(bars);
             for (int i = 0; i < titlelist.Count; i++)
@@ -109,7 +134,7 @@ public class BarGraph : MonoBehaviour
             GetBars();
         }
 
-        SetBarsValue(values);
+        SetBarsValue(vs);
         SetBarsTitle(titlelist);
         SetBarEvent();
     }
@@ -123,11 +148,11 @@ public class BarGraph : MonoBehaviour
             {
                 signs.Add(Instantiate(signPrefab, signParent));
             }
-            float g = max / (signCount - 1);
-            for (int i = 0; i < signs.Count; i++)
-            {
-                signs[i].signText.text = (g * i).ToString();
-            }
+        }
+        float g = max / (signCount - 1);
+        for (int i = 0; i < signs.Count; i++)
+        {
+            signs[i].signText.text = (g * i).ToString();
         }
     }
 }

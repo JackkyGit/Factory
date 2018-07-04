@@ -2,10 +2,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ProductOutputPanel : FirstLevelPanel
 {
     public BarGraph graph;
+    public float animDuration;
+    public ToggleGroup toggleGroup;
 
     private List<ProductOutput> data = new List<ProductOutput>();
     private List<int> dataID = new List<int>();
@@ -18,7 +21,27 @@ public class ProductOutputPanel : FirstLevelPanel
         base.Init(manager);
 
         timeType = TimeType.Month;
+        toggleGroup.GetComponentsInChildren<Toggle>()[(int)timeType].isOn = true;
+        graph.animDuration = animDuration;
         graph.SetXAxis();
+        graph.OnBarEnter += Graph_OnBarEnter;
+        graph.OnBarExit += Graph_OnBarExit;
+        graph.OnBarClick += Graph_OnBarClick;
+    }
+
+    private void Graph_OnBarClick(BarBase arg0)
+    {
+        Debug.Log(arg0.titleText.text);
+    }
+
+    private void Graph_OnBarExit(BarBase arg0)
+    {
+        arg0.ExitAnim(animDuration);
+    }
+
+    private void Graph_OnBarEnter(BarBase arg0)
+    {
+        arg0.EnterAnim(animDuration);
     }
 
     public override void GetDataFromGetter(IDataIO dataIO)
@@ -57,7 +80,21 @@ public class ProductOutputPanel : FirstLevelPanel
 
     public override void SetData()
     {
+        graph.SetBars(dataQuality, dataName);
+    }
 
-        graph.SetBars(null, dataName);
+    /// <summary>
+    /// 年月日转换
+    /// </summary>
+    /// <param name="timetype"></param>
+    public void OnToggleClick(int timetype)
+    {
+        this.timeType = (TimeType)timetype;
+
+        GetDataFromGetter(DataGetter.Instance.dataIO);
+
+        SetData();
+
+        SetCustomData();
     }
 }
