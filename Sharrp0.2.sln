@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharrp0.2", "Sharrp0.2.csproj", "{87CBA860-EEF7-CEF5-4822-97D30EA065E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharrp0.2.Editor", "Sharrp0.2.Editor.csproj", "{4659FE2C-5EC0-1480-34B0-F13D24956AD1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87CBA860-EEF7-CEF5-4822-97D30EA065E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87CBA860-EEF7-CEF5-4822-97D30EA065E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87CBA860-EEF7-CEF5-4822-97D30EA065E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87CBA860-EEF7-CEF5-4822-97D30EA065E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4659FE2C-5EC0-1480-34B0-F13D24956AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4659FE2C-5EC0-1480-34B0-F13D24956AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4659FE2C-5EC0-1480-34B0-F13D24956AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4659FE2C-5EC0-1480-34B0-F13D24956AD1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
